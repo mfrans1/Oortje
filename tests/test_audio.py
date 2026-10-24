@@ -1,5 +1,6 @@
 from oortje.audio import Audio
 
+
 def test_audio_initialization():
     # Test with a valid file path
     audio = Audio("data/wav/01 Eastern Backyard Birds.wav")
@@ -10,6 +11,6 @@ def test_audio_initialization():
     # Test with an invalid file path
     try:
         Audio("invalid/path/to/audio.wav")
-        assert False, "Expected FileNotFoundError"
+        raise AssertionError("Expected FileNotFoundError")
     except FileNotFoundError:
         pass

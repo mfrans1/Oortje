@@ -1,5 +1,6 @@
-from oortje.spectrogram import Spectrogram
 from oortje.audio import Audio
+from oortje.spectrogram import Spectrogram
+
 
 def test_spectrogram_initialization():
     # Test with a valid Audio object
