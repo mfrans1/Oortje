@@ -1,8 +1,11 @@
-import Path
-import oortje.audio as audio
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import spectrogram
-import matplotlib.pyplot as plt
+
+import oortje.audio as audio
+
 
 class Spectrogram:
     def __init__(self, audio: audio.Audio):
