@@ -1,17 +1,15 @@
+
 [project]
 name = "oortje"
 version = "0.1.0"
-description = "Add your description here"
+description = "Bird-call analysis using audio signal processing and machine learning"
 readme = "README.md"
-authors = [
-    { name = "Mees", email = "mees.franssen@gmail.com" }
-]
 requires-python = ">=3.13"
 dependencies = [
-    "matplotlib>=3.11.2",
-    "numpy>=2.5.4",
-    "scipy>=1.18.1",
-    "soundfile>=0.14.0",
+    "matplotlib>=3.10,<4",
+    "numpy>=2.0,<3",
+    "scipy>=1.15,<2",
+    "soundfile>=0.13,<1",
 ]
 
 [project.scripts]
@@ -23,6 +21,25 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "pytest>=9.1.1",
-    "ruff>=0.17.2",
+    "pytest>=8,<10",
+    "ruff>=0.11,<1",
 ]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # Pyflakes
+    "I",    # Import sorting
+    "UP",   # Modern Python syntax
+    "B",    # Common bug patterns
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
