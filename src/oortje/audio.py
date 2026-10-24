@@ -1,3 +1,4 @@
+from pathlib import Path
 import soundfile as sf
 
 class Audio:
@@ -8,6 +9,11 @@ class Audio:
         from filepath using soundfile. Default behaviour for now
         is to convert to mono if audio has multiple channels.
         """
+        self.file_path = Path(file_path)
+
+        if not self.file_path.exists():
+            raise FileNotFoundError(f"File not found: {self.file_path}")
+
         self.data, self.sample_rate = sf.read(file_path)
 
         if self.data.ndim > 1:
@@ -26,5 +32,11 @@ class Audio:
 
     def save(self, file_path: str):
         """Save the audio data to a file."""
+
+        if not Path(file_path).parent.exists():
+            raise FileNotFoundError(
+                f"Directory does not exist: {Path(file_path).parent}"
+                )
+        
         sf.write(file_path, self.data, self.sample_rate)
         print(f"Saved audio to: {file_path}")
