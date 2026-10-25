@@ -3,7 +3,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import spectrogram
-from scipy.ndimage import median_filter
 
 import oortje.audio as audio
 
