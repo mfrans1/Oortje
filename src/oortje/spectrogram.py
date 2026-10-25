@@ -3,6 +3,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import spectrogram
+from scipy.ndimage import median_filter
 
 import oortje.audio as audio
 
@@ -19,9 +20,20 @@ class Spectrogram:
 
         self.power = 10 * np.log10(self.power + 1e-10)
 
+        self.max_power, self.min_power = self.power.max(), self.power.min()
+
     def normalize(self):
         """Normalize the power values to the range [0, 1]."""
-        self.power = (self.power - self.power.min()) / (self.power.max() - self.power.min())
+        self.power = (self.power - self.min_power) / (self.max_power - self.min_power)
+
+    def denormalize(self):
+        """Denormalize the power values back to the original scale."""
+        self.power = self.power * (self.max_power - self.min_power) + self.min_power
+
+    def detect_calls(self, threshold: float = 0.5):
+        """Detect active frequency-time bins."""
+        self.calls = self.power > threshold
+        return self.calls
 
     def plot(self, save: bool = False, save_path: str = "output/spectrogram.png"):
         # Plot.
