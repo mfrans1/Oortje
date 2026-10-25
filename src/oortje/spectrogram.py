@@ -19,6 +19,9 @@ class Spectrogram:
 
         self.power = 10 * np.log10(self.power + 1e-10)
 
+    def normalize(self):
+        """Normalize the power values to the range [0, 1]."""
+        self.power = (self.power - self.power.min()) / (self.power.max() - self.power.min())
 
     def plot(self, save: bool = False, save_path: str = "output/spectrogram.png"):
         # Plot.
