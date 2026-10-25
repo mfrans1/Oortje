@@ -3,6 +3,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import spectrogram
+from scipy.ndimage import label, find_objects, binary_opening, binary_closing
 
 import oortje.audio as audio
 
@@ -29,9 +30,29 @@ class Spectrogram:
         """Denormalize the power values back to the original scale."""
         self.power = self.power * (self.max_power - self.min_power) + self.min_power
 
-    def detect_calls(self, threshold: float = 0.5):
-        """Detect active frequency-time bins."""
-        self.calls = self.power > threshold
+    def detect_calls(self, threshold: float = 0.5, min_area_bins: int = 10):
+        """ Detect active frequency-time bins and update self.calls as a 2D boolean mask. """
+
+        binary_mask = self.power > threshold
+        
+        structure = [[0, 1, 0], [1, 1, 1], [0, 1, 0]]
+        binary_mask = binary_closing(binary_mask, structure=structure)
+        binary_mask = binary_opening(binary_mask, structure=structure)
+        
+        labeled_mask, num_features = label(binary_mask)
+        slices = find_objects(labeled_mask)
+        
+        valid_calls_mask = np.zeros_like(self.power, dtype=bool)
+        
+        for i, slc in enumerate(slices):
+            if slc is None:
+                continue
+                
+            area = np.sum(labeled_mask[slc] == (i + 1))
+            if area >= min_area_bins:
+                valid_calls_mask[slc] |= (labeled_mask[slc] == (i + 1))
+                
+        self.calls = valid_calls_mask
         return self.calls
 
     def plot(self, save: bool = False, save_path: str = "output/spectrogram.png"):
