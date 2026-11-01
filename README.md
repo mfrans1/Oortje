@@ -8,9 +8,20 @@ Oortje is a tool that ingests wav recordings of bird calls, and (will in the end
 
 ## How it works
 Input bird call recordings (`.wav` files) are transforemd to spectrograms, and calls are isolated from background noise using a basic median filtering algorithm. This removes redundant data and allows the use of `scipy.ndimage` labelling to then decompose the calls into individual features. 
-[](data/plots/spectrogram.png)
-[](data/plots/spectrogram_clean.png)
-[](data/plots/spectrogram_features.png)
+
+![](data/plots/spectrogram.png)
+Audio recording of a bird call transformed into spectrogram.
+![](data/plots/spectrogram_clean.png)
+Bird call is isolated from background noise features using a median filter. 
+![](data/plots/spectrogram_features.png)
+Individual features of the bird call are identified.
+
+These features are then used to calculate the `BirdCall` vector, which iterates through each feature to find statistics as needed. This is done for the dataset of all audio recordings of birds, to create all vectors of "known birds" (known as in, in the dataset, not all the birds ever). 
+
+The user can then produce the `BirdCall` vector for their own recording and compare the cosine similarity/euclidean distance of this vector with the dataset to find likely candidates; thereby identifying the bird.
+
+## Usage
+For best usage and examples look at test_bed.ipynb. More coming soon
 
 ## Data Sources
 All the bird recordings I applied for the project were through this [repository](https://dl.allaboutbirds.org/backyardbirdsdownload-0), because I wanted to stay with the Cornell Lab for Ornithology. 
