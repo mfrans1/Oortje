@@ -1,31 +1,3 @@
-# this will be responsible for decomposing the spectrogram into something useful
-
-# probobably using classes again
-
-"""
-decompositoin idea: 
-
-now we have cleaned spectrograms, ie just valid 
-data and nan otherwise. 
-
-now we want to compare different spectrograms of different
-birds and group them into different classes. we know
-all the recordings are of one unique bird species.
-
-label the calls into differnt features, then for each feature
-we can find a vector to describe it:
-
-avg frequency, freq width, duration
-
-all features will have a vector, so a bird will have a matrix
-    - can we compare these matrices directly? probably not
-    - need to decompose the matrices into something smaller, svd
-    - then we can compare the decomposition of the bird matrices with 
-      each other? 
-    
-"""
-
-
 import numpy as np
 from oortje.spectrogram import Spectrogram
 from oortje.audio import Audio
