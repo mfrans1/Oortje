@@ -6,6 +6,6 @@ __pycache__/
 .DS_Store
 
 data/*
-!data/.gitkeep
+!data/plots
 
 
