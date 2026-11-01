@@ -2,8 +2,8 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.ndimage import binary_closing, binary_opening, find_objects, label
 from scipy.signal import spectrogram
-from scipy.ndimage import label, find_objects, binary_opening, binary_closing
 
 import oortje.audio as audio
 
@@ -31,7 +31,9 @@ class Spectrogram:
         self.power = self.power * (self.max_power - self.min_power) + self.min_power
 
     def detect_calls(self, threshold: float = 0.5, min_area_bins: int = 10):
-        """ Detect active frequency-time bins and update self.calls as a 2D boolean mask. """
+        """ 
+        Detect active frequency-time bins and update self.calls as a 2D boolean mask.
+        """
 
         binary_mask = self.power > threshold
         
