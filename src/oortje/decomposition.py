@@ -1,12 +1,14 @@
 import numpy as np
-from oortje.spectrogram import Spectrogram
-from oortje.audio import Audio
 from scipy.ndimage import label
-import matplotlib.pyplot as plt
+
+from oortje.spectrogram import Spectrogram
+
 
 class BirdCall:
     def __init__(self, spectrogram: Spectrogram):
-        self.power, self.frequencies, self.times = spectrogram.power, spectrogram.frequencies, spectrogram.times
+        self.power = spectrogram.power
+        self.frequencies = spectrogram.frequencies
+        self.times = spectrogram.times
 
         self.mask = np.isfinite(self.power)  # mask for valid data points
 
